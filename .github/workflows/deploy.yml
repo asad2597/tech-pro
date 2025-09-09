@@ -32,16 +32,16 @@ jobs:
           docker tag techpro-app:$IMAGE_TAG $IMAGE_URI
           docker push $IMAGE_URI
 
-      # OPTIONAL: Deploy to EC2 via SSH
-      # - name: Deploy to EC2
-      #   if: success()
-      #   uses: appleboy/ssh-action@v0.1.10
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ec2-user
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     script: |
-      #       docker pull public.ecr.aws/q7j8n3l6/techpro-app:latest
-      #       docker stop techpro || true
-      #       docker rm techpro || true
-      #       docker run -d -p 80:80 --name techpro public.ecr.aws/q7j8n3l6/techpro-app:latest
+      #OPTIONAL: Deploy to EC2 via SSH
+      - name: Deploy to EC2
+        if: success()
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull public.ecr.aws/q7j8n3l6/techpro-app:latest
+            docker stop techpro || true
+            docker rm techpro || true
+            docker run -d -p 80:80 --name techpro public.ecr.aws/q7j8n3l6/techpro-app:latest
