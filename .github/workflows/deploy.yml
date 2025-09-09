@@ -1,4 +1,4 @@
-name: Deploy to AWS ECR
+name: Deploy to AWS Public ECR
 
 on:
   push:
@@ -17,22 +17,22 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1   # Public ECR is only in us-east-1
 
-      - name: Log in to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Log in to Amazon ECR Public
+        run: |
+          aws ecr-public get-login-password --region us-east-1 \
+            | docker login --username AWS --password-stdin public.ecr.aws/q7j8n3l6
 
       - name: Build, tag, and push image
         run: |
           IMAGE_TAG=latest
-          ECR_REGISTRY=${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY=${{ secrets.ECR_REPOSITORY }}
+          IMAGE_URI=public.ecr.aws/q7j8n3l6/techpro-app:$IMAGE_TAG
           docker build -t techpro-app:$IMAGE_TAG .
-          docker tag techpro-app:latest public.ecr.aws/q7j8n3l6/techpro-app:latest
-          docker push public.ecr.aws/q7j8n3l6/techpro-app:latest
+          docker tag techpro-app:$IMAGE_TAG $IMAGE_URI
+          docker push $IMAGE_URI
 
-      # # OPTIONAL: Deploy to EC2 via SSH
+      # OPTIONAL: Deploy to EC2 via SSH
       # - name: Deploy to EC2
       #   if: success()
       #   uses: appleboy/ssh-action@v0.1.10
@@ -41,7 +41,7 @@ jobs:
       #     username: ec2-user
       #     key: ${{ secrets.EC2_SSH_KEY }}
       #     script: |
-      #       docker pull ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+      #       docker pull public.ecr.aws/q7j8n3l6/techpro-app:latest
       #       docker stop techpro || true
       #       docker rm techpro || true
-      #       docker run -d -p 80:80 --name techpro ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+      #       docker run -d -p 80:80 --name techpro public.ecr.aws/q7j8n3l6/techpro-app:latest
