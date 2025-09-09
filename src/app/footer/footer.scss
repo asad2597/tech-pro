@@ -1,0 +1,21 @@
+$primary-color: #1e90ff;
+$secondary-color: #f4f4f4;
+$text-color: #333;
+
+.footer {
+  background-color: $primary-color;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  margin-top: auto;
+
+  a {
+    color: yellow;
+    text-decoration: none;
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

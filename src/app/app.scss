@@ -1,0 +1,48 @@
+$app-bg: #f4f4f4;
+$primary-color: #1e90ff;
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $app-bg;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: $primary-color;
+  color: white;
+
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  .nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    &.active {
+      font-weight: bold;
+      border-bottom: 2px solid yellow;
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+}

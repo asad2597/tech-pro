@@ -1,0 +1,17 @@
+    <div class="app-wrapper">
+      <section class="services">
+  <div class="container">
+    <h2>Our Services</h2>
+    <div class="service-cards">
+      <div class="card" *ngFor="let service of services">
+        <h3>{{ service }}</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. We deliver excellence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
