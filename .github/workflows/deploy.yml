@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    secrets: inherit
 
     steps:
       - name: Checkout code
@@ -17,7 +18,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+<<<<<<< HEAD
+          aws-region: ${{ secrets.AWS_REGION }}
+=======
           aws-region: ap-south-1
+>>>>>>> parent of c2f64f6 (deploy.yml updated)
 
       - name: Log in to Amazon ECR
         id: login-ecr
